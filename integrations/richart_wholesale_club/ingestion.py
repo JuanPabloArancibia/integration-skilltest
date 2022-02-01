@@ -1,5 +1,3 @@
-from curses import def_prog_mode
-from heapq import nlargest
 import os
 import numpy as np
 import pandas as pd
