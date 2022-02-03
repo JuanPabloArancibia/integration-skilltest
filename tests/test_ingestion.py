@@ -77,5 +77,11 @@ class testIngestion(unittest.TestCase):
     response = tester.text
     assert 'PONG' in response
     
+  def test_post_products(self):
+    url = "http://0.0.0.0:5000"
+    tester = requests.get(url + "/ping")
+    response = tester.text
+    assert 'PONG' in response
+    
 if __name__ == '__main__':
   unittest.main()
