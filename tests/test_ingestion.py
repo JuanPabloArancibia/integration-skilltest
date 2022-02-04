@@ -29,7 +29,7 @@ class testIngestion(unittest.TestCase):
     df = ingestion.clean_products(random_df)
     for index, row in df.iterrows():
       self.assertFalse(row['ITEM_IMG'].startswith('https://')) 
-      self.assertTrue(row['PACKAGE'])
+      self.assertTrue(row['PACKAGE']) #todo: it Should be out of loop.
 
   def test_clean_stock(self):
     data = {'SKU': [1343, 12434, 2432],

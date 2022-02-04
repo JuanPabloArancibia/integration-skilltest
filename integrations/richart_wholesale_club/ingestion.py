@@ -58,14 +58,14 @@ def clean_stock(price_stock_df):
 def data_list(df):
   header = {'token': 'Bearer {}'.format(TOKEN)}
   merchants = requests.get("{}/api/merchants".format(URL), headers=header).json()
-  richards = list(filter(lambda merchant: merchant['name'] == "Richard's", merchants.get('merchants')))[0]
+  richards = list(filter(lambda merchant: merchant['name'] == "Richard's", merchants.get('merchants')))[0] #Use next instead of list
   richards_df = df.sort_values(['PRICE'], ascending=False).groupby('BRAND_NAME').head(100)
   richards_df.insert(0, "merchant_id", richards['id'])
   richards_df.insert(1, "url", '') #this column is not present in any csv file
   richards_df = richards_df.rename(columns={'SKU': 'sku', 'EAN': 'barcodes', 'BRAND_NAME': 'brand', 'ITEM_NAME': 'name',
                                             'ITEM_DESCRIPTION': 'description', 'PACKAGE': 'package', 'ITEM_IMG': 'image_url',
                                             'CATEGORY': 'category', 'BRANCH': 'branch', 'PRICE': 'price', 'STOCK': 'stock'})
-                                            
+                   
   richards_df[['sku', 'barcodes']] = richards_df[['sku', 'barcodes']].astype(str)
   richards_df['barcodes'] = "['" + richards_df['barcodes'] + "']"
   products_json = (richards_df.groupby(['merchant_id', 'sku', 'barcodes', 'brand', 'name', 'description', 'package', 'image_url', 'category', 'url'])
@@ -86,14 +86,14 @@ def post_products(url, header, data, session):
 def ingestion_api(data_list):
   header = {'token': 'Bearer {}'.format(TOKEN)}
   merchants = requests.get("{}/api/merchants".format(URL), headers=header).json()
-  richards = list(filter(lambda merchant: merchant['name'] == "Richard's", merchants.get('merchants')))[0]
-  beauty = list(filter(lambda merchant: merchant['name'] == "Beauty", merchants.get('merchants')))[0]
+  richards = list(filter(lambda merchant: merchant['name'] == "Richard's", merchants.get('merchants')))[0] #Use next instead of list
+  beauty = list(filter(lambda merchant: merchant['name'] == "Beauty", merchants.get('merchants')))[0] #Use next instead of list
   active = {'id': richards['id'], 'name': 'test', 'is_active': True, 'can_be_updated': True, 'can_be_deleted': False}
   is_active = requests.put("{}/api/merchants/{}".format(URL, richards['id']), headers=header, json=active)
   delete = requests.delete("{}/api/merchants/{}".format(URL, beauty['id']), headers=header)
 
   s = sched.scheduler(time.time, time.sleep)
-  session = requests.Session()
+  session = requests.Session() #todo: It should be inside post_products method
   counter = 0
   for data in data_list:
     print('sending products...')   
