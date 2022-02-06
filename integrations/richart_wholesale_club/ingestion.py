@@ -65,7 +65,7 @@ def data_list(df):
   richards_df = richards_df.rename(columns={'SKU': 'sku', 'EAN': 'barcodes', 'BRAND_NAME': 'brand', 'ITEM_NAME': 'name',
                                             'ITEM_DESCRIPTION': 'description', 'PACKAGE': 'package', 'ITEM_IMG': 'image_url',
                                             'CATEGORY': 'category', 'BRANCH': 'branch', 'PRICE': 'price', 'STOCK': 'stock'})
-  richards_df = richards_df.head()                   
+                     
   richards_df[['sku', 'barcodes']] = richards_df[['sku', 'barcodes']].astype(str)
   richards_df['barcodes'] = "['" + richards_df['barcodes'] + "']"
   products_json = (richards_df.groupby(['merchant_id', 'sku', 'barcodes', 'brand', 'name', 'description', 'package', 'image_url', 'category', 'url'])
